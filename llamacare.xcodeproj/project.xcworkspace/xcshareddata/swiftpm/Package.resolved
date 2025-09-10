@@ -1,5 +1,5 @@
 {
-  "originHash" : "15d0158f0ddfe80df27ef2f76ac506c3126e9141025029c7d33a15a6dc8a4d29",
+  "originHash" : "165df9d17e825601f0340bb2b9c5ffddf4e3895f58116f7984fc6133ba63aad5",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -179,6 +179,15 @@
       "state" : {
         "revision" : "ed54f3c9589d6cdc6fc2bb810e4809b0735fee01",
         "version" : "0.1.23"
+      }
+    },
+    {
+      "identity" : "swifthelper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ebucelik/SwiftHelper.git",
+      "state" : {
+        "revision" : "5dc43c95183f785f9302fe09202ada6292ca4447",
+        "version" : "1.0.4"
       }
     },
     {

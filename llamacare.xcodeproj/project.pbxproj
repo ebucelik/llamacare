@@ -15,9 +15,12 @@
 		719F6FA22E6F767400053A0F /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6FA12E6F767400053A0F /* MLXLLM */; };
 		719F6FA42E6F767400053A0F /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6FA32E6F767400053A0F /* MLXLMCommon */; };
 		71BB4C682E7155F300DC5284 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 71BB4C672E7155F300DC5284 /* ComposableArchitecture */; };
+		71BB4D4A2E71919D00DC5284 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71BB4D492E71919D00DC5284 /* Launch Screen.storyboard */; };
+		71BB4D4D2E7195C900DC5284 /* SwiftHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 71BB4D4C2E7195C900DC5284 /* SwiftHelper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		71BB4D492E71919D00DC5284 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		71ECE2822E6F5EB800F310A3 /* llamacare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = llamacare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -38,6 +41,7 @@
 				719F6F9B2E6F752500053A0F /* MLXFast in Frameworks */,
 				719F6F9D2E6F752500053A0F /* MLXLinalg in Frameworks */,
 				719F6F972E6F752500053A0F /* MLX in Frameworks */,
+				71BB4D4D2E7195C900DC5284 /* SwiftHelper in Frameworks */,
 				719F6F9F2E6F752500053A0F /* MLXNN in Frameworks */,
 				719F6F992E6F752500053A0F /* MLXFFT in Frameworks */,
 				71BB4C682E7155F300DC5284 /* ComposableArchitecture in Frameworks */,
@@ -51,6 +55,7 @@
 		71ECE2792E6F5EB800F310A3 = {
 			isa = PBXGroup;
 			children = (
+				71BB4D492E71919D00DC5284 /* Launch Screen.storyboard */,
 				71ECE2842E6F5EB800F310A3 /* llamacare */,
 				71ECE2832E6F5EB800F310A3 /* Products */,
 			);
@@ -92,6 +97,7 @@
 				719F6FA12E6F767400053A0F /* MLXLLM */,
 				719F6FA32E6F767400053A0F /* MLXLMCommon */,
 				71BB4C672E7155F300DC5284 /* ComposableArchitecture */,
+				71BB4D4C2E7195C900DC5284 /* SwiftHelper */,
 			);
 			productName = llamacare;
 			productReference = 71ECE2822E6F5EB800F310A3 /* llamacare.app */;
@@ -125,6 +131,7 @@
 				719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */,
 				719F6FA02E6F767400053A0F /* XCRemoteSwiftPackageReference "mlx-swift-examples" */,
 				71BB4C662E7155F300DC5284 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				71BB4D4B2E7195C900DC5284 /* XCRemoteSwiftPackageReference "SwiftHelper" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 71ECE2832E6F5EB800F310A3 /* Products */;
@@ -141,6 +148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71BB4D4A2E71919D00DC5284 /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,9 +298,12 @@
 				DEVELOPMENT_ASSET_PATHS = "\"llamacare/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LlamaCare;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -322,9 +333,12 @@
 				DEVELOPMENT_ASSET_PATHS = "\"llamacare/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LlamaCare;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -392,6 +406,14 @@
 				minimumVersion = 1.22.2;
 			};
 		};
+		71BB4D4B2E7195C900DC5284 /* XCRemoteSwiftPackageReference "SwiftHelper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ebucelik/SwiftHelper.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -434,6 +456,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 71BB4C662E7155F300DC5284 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		71BB4D4C2E7195C900DC5284 /* SwiftHelper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 71BB4D4B2E7195C900DC5284 /* XCRemoteSwiftPackageReference "SwiftHelper" */;
+			productName = SwiftHelper;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

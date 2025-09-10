@@ -6,7 +6,7 @@
 //
 
 struct OpenRouterResponse: Codable, Equatable {
-    struct Choice: Codable, Equatable {
+    struct Choice: Codable, Hashable {
         let logprobs: String?
         let finish_reason: String
         let native_finish_reason: String

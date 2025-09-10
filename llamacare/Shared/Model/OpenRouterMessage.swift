@@ -5,14 +5,19 @@
 //  Created by Ing. Ebu Bekir Celik, BSc, MSc on 09.09.25.
 //
 
-struct OpenRouterMessage: Codable, Equatable {
-    struct Message: Codable, Equatable {
+public struct OpenRouterMessage: Codable, Equatable {
+    public struct Message: Codable, Hashable {
         let role: String
         let content: String
         let refusal: String?
         let reasoning: String?
 
-        init(role: String = "user", content: String, refusal: String? = nil, reasoning: String? = nil) {
+        public init(
+            role: String = "user",
+            content: String,
+            refusal: String? = nil,
+            reasoning: String? = nil
+        ) {
             self.role = role
             self.content = content
             self.refusal = refusal
@@ -23,7 +28,7 @@ struct OpenRouterMessage: Codable, Equatable {
     let model: String
     let messages: [Message]
 
-    init(
+    public init(
         model: String = "deepseek/deepseek-chat-v3.1:free",
         messages: [Message]
     ) {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftHelper
 
 class APIClient: NSObject, URLSessionTaskDelegate {
     func start<C: Call>(call: C) async throws -> C.Parser {
@@ -53,8 +54,7 @@ class APIClient: NSObject, URLSessionTaskDelegate {
     ) async throws -> C.Parser {
         let response = try await URLSession.shared.data(for: urlRequest)
 
-        guard let httpUrlResponse = response.1 as? HTTPURLResponse,
-              let allHeaderFields = httpUrlResponse.allHeaderFields as? [String: String] else { throw APIError.response }
+        guard let httpUrlResponse = response.1 as? HTTPURLResponse else { throw APIError.response }
 
         if isStatusCodeOk(code: httpUrlResponse.statusCode) {
 #if DEBUG
