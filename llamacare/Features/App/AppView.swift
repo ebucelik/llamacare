@@ -5,37 +5,47 @@
 //  Created by Ing. Ebu Bekir Celik, BSc, MSc on 10.09.25.
 //
 
-import SwiftUI
 import ComposableArchitecture
+import SwiftUI
 
 @ViewAction(for: AppCore.self)
 struct AppView: View {
 
-    @Bindable
-    var store: StoreOf<AppCore>
+    let store: StoreOf<AppCore>
 
     var body: some View {
-        VStack {
-            if store.isOpenRouterResponseLoading {
-                ProgressView().progressViewStyle(.circular)
-            } else if case let .loaded(openRouterResponse) = store.openRouterResponse {
-                ForEach(openRouterResponse.choices, id: \.self) { choice in
-                    Text(choice.message.content)
+        NavigationStack {
+            TabView {
+                Tab("Chat", systemImage: "paperplane.fill") {
+                    ChatView(
+                        store: store.scope(state: \.chatState, action: \.chatAction)
+                    )
+                }
+
+                Tab("Info", systemImage: "info.circle.fill") {
+                    InfoView()
                 }
             }
+            .padding(16)
+            .toolbar {
+                ToolbarItem(placement: .title) {
+                    HStack {
+                        Text("LlamaCare")
+                            .fontWeight(.bold)
+                    }
+                }
 
-            Spacer()
-
-            HStack {
-                TextField("", text: $store.message, prompt: Text("Write a message..."))
-
-                Button {
-                    send(.sendMessage)
-                } label: {
-                    Text("Send")
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        print("open revenue cat")
+                    } label: {
+                        Text("PRO")
+                            .fontWeight(.bold)
+                    }
                 }
             }
+            .tint(AppColor.secondary)
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding(16)
     }
 }
