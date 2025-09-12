@@ -12,15 +12,19 @@ import SwiftUI
 struct llamacareApp: App {
     var body: some Scene {
         WindowGroup {
-            AppView(
-                store: Store(
-                    initialState: AppCore.State(),
-                    reducer: {
-                        AppCore()
-                            .dependency(\.openRouterService, OpenRouterService())
-                    }
+            withDependencies {
+                $0.appStyle = AppStyle()
+            } operation: {
+                AppView(
+                    store: Store(
+                        initialState: AppCore.State(),
+                        reducer: {
+                            AppCore()
+                                .dependency(\.openRouterService, OpenRouterService())
+                        }
+                    )
                 )
-            )
+            }
         }
     }
 }
