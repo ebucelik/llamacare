@@ -12,9 +12,13 @@ import SwiftHelper
 struct ChatCore {
     @ObservableState
     struct State: Equatable {
-        var initialMessage: String? = "Write in sentences. Act like a human chat bot. Be sensitive, empathetic and caring. Ask questions if needed. It should be a mood boosting conversation. Stay on the language you are receiving. Keep it short. Now say Hi to this user."
+        var defaultConfigMessage = "Write in sentences. Act like a human chat bot. Be sensitive, empathetic and caring. Ask questions when needed. It should be a mood boosting conversation. Stay on the language you are receiving. Use emojis. Keep it short."
+
+        var initialMessage: String? = "Your name is LlamaCare. Now say hi to the user."
 
         var openRouterResponse: Loadable<OpenRouterResponse> = .none
+
+        var messages: [OpenRouterMessage.Message] = []
 
         var isOpenRouterResponseLoading: Bool {
             if case .loading = openRouterResponse {
@@ -55,23 +59,27 @@ struct ChatCore {
             case let .view(action):
                 switch action {
                 case .onAppear:
-                    guard state.initialMessage != nil else { return .none }
+                    guard let message = state.initialMessage else { return .none }
 
-                    return .send(.async(.sendMessageRequest("")))
+                    return .send(.async(.sendMessageRequest(message)))
                 }
 
             case let .async(action):
                 switch action {
                 case let .sendMessageRequest(message):
-                    guard !message.isEmpty || state.initialMessage != nil else { return .none }
+                    guard !message.isEmpty && !state.isOpenRouterResponseLoading
+                    else { return .none }
 
-                    let message = "Write in sentences. Act like a human chat bot. Be sensitive, empathetic and caring. Ask questions if needed. It should be a mood boosting conversation. Stay on the language you are receiving. Keep it short. \n\n" + message
+                    if state.initialMessage == nil {
+                        state.messages.append(
+                            OpenRouterMessage.Message(content: message)
+                        )
+                    }
 
-                    let openRouterMessage = OpenRouterMessage(
-                        messages: [
-                            OpenRouterMessage.Message(content: state.initialMessage ?? message)
-                        ]
-                    )
+                    let content = state.defaultConfigMessage + "\n\n" + message
+                    let message = OpenRouterMessage.Message(content: content)
+
+                    let openRouterMessage = OpenRouterMessage(messages: [message])
 
                     return .run { send in
                         await send(.async(.setOpenRouterResponse(.loading)))
@@ -87,7 +95,16 @@ struct ChatCore {
 
                 case let .setOpenRouterResponse(openRouterResponse):
                     state.openRouterResponse = openRouterResponse
-                    state.initialMessage = nil
+
+                    if case let .loaded(openRouterResponse) = openRouterResponse {
+                        openRouterResponse.choices.forEach { choice in
+                            state.messages.append(choice.message)
+                        }
+                    }
+
+                    if state.initialMessage != nil {
+                        state.initialMessage = nil
+                    }
 
                     return .none
                 }

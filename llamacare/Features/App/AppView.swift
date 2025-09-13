@@ -33,7 +33,7 @@ struct AppView: View {
                     InfoView()
                 }
             }
-            .padding(16)
+            .padding(.horizontal, 16)
             .toolbar {
                 ToolbarItem(placement: .title) {
                     HStack {

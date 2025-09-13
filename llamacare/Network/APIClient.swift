@@ -63,10 +63,6 @@ class APIClient: NSObject, URLSessionTaskDelegate {
             return try JSONDecoder().decode(C.Parser.self, from: response.0)
         } else if isStatusCodeNotOk(code: httpUrlResponse.statusCode) {
             if httpUrlResponse.statusCode == 401 {
-//                DispatchQueue.main.async {
-//                    NotificationCenter.default.post(name: .logout, object: nil)
-//                }
-
                 throw APIError.unauthorized
             } else {
                 var errorResponse: MessageResponse = .init(message: "")

@@ -29,7 +29,7 @@ public struct OpenRouterMessage: Codable, Equatable {
     let messages: [Message]
 
     public init(
-        model: String = "deepseek/deepseek-chat-v3.1:free",
+        model: String = "openrouter/sonoma-sky-alpha",
         messages: [Message]
     ) {
         self.model = model

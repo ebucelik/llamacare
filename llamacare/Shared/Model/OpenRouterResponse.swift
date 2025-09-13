@@ -7,20 +7,17 @@
 
 struct OpenRouterResponse: Codable, Equatable {
     struct Choice: Codable, Hashable {
-        let logprobs: String?
         let finish_reason: String
         let native_finish_reason: String
         let index: Int
         let message: OpenRouterMessage.Message
 
         init(
-            logprobs: String?,
             finish_reason: String,
             native_finish_reason: String,
             index: Int,
             message: OpenRouterMessage.Message
         ) {
-            self.logprobs = logprobs
             self.finish_reason = finish_reason
             self.native_finish_reason = native_finish_reason
             self.index = index
@@ -32,18 +29,15 @@ struct OpenRouterResponse: Codable, Equatable {
         let prompt_tokens: Int
         let completion_tokens: Int
         let total_tokens: Int
-        let prompt_tokens_details: String?
 
         init(
             prompt_tokens: Int,
             completion_tokens: Int,
-            total_tokens: Int,
-            prompt_tokens_details: String?
+            total_tokens: Int
         ) {
             self.prompt_tokens = prompt_tokens
             self.completion_tokens = completion_tokens
             self.total_tokens = total_tokens
-            self.prompt_tokens_details = prompt_tokens_details
         }
     }
 

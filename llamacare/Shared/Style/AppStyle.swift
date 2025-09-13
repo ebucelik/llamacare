@@ -14,6 +14,7 @@ public enum AppColor {
     case secondary
     case surface
     case disabled
+    case clear
 }
 
 public enum AppFont {
@@ -44,6 +45,8 @@ public class AppStyle: AppStyleProtocol {
             return Color("Surface")
         case .disabled:
             return Color("Disabled")
+        case .clear:
+            return Color.clear
         }
     }
 
