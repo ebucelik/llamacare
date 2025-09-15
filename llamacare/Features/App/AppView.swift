@@ -29,7 +29,7 @@ struct AppView: View {
                     }
                 }
 
-                Tab("Info", systemImage: "info.circle.fill") {
+                Tab("Settings", systemImage: "gear") {
                     InfoView()
                 }
             }
@@ -42,7 +42,7 @@ struct AppView: View {
                     }
                 }
 
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem {
                     Button {
                         print("open revenue cat")
                     } label: {
@@ -50,7 +50,18 @@ struct AppView: View {
                             .fontWeight(.bold)
                     }
                 }
+
+                ToolbarItem {
+                    Button {
+                        print("present info")
+                    } label: {
+                        Image(systemName: "info.circle")
+                            .renderingMode(.template)
+                            .foregroundStyle(Color.black)
+                    }
+                }
             }
+            .tabBarMinimizeBehavior(.onScrollDown)
             .tabViewBottomAccessory {
                 HStack {
                     withDependencies {

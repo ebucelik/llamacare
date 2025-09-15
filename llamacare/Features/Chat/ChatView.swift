@@ -64,6 +64,7 @@ struct ChatView: View {
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
                 .contentShape(Rectangle())
+                .padding(.top, 8)
             }
             .listStyle(.plain)
             .scrollIndicators(.hidden)
@@ -73,6 +74,7 @@ struct ChatView: View {
         .onAppear {
             send(.onAppear)
         }
+        .ignoresSafeArea(edges: .bottom)
     }
 
     @ViewBuilder
