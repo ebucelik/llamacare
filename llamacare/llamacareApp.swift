@@ -7,11 +7,16 @@
 
 import ComposableArchitecture
 import SwiftUI
+import RevenueCat
 
 @main
 struct llamacareApp: App {
     @AppStorage("appearance") private var selectedAppearance: Appearance = .system
-    
+
+    init() {
+        Purchases.configure(withAPIKey: "appl_oImXgLzHdwcmyOBbTEfgKzxTfKC")
+    }
+
     var body: some Scene {
         WindowGroup {
             withDependencies {

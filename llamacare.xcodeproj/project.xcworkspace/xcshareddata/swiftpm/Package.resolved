@@ -1,5 +1,5 @@
 {
-  "originHash" : "165df9d17e825601f0340bb2b9c5ffddf4e3895f58116f7984fc6133ba63aad5",
+  "originHash" : "b3717b0781f85ea014e6118e548596378fd686276a020f8155e99d919bd8223a",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -11,48 +11,12 @@
       }
     },
     {
-      "identity" : "gzipswift",
+      "identity" : "purchases-ios-spm",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/1024jp/GzipSwift",
+      "location" : "https://github.com/RevenueCat/purchases-ios-spm.git",
       "state" : {
-        "revision" : "731037f6cc2be2ec01562f6597c1d0aa3fe6fd05",
-        "version" : "6.0.1"
-      }
-    },
-    {
-      "identity" : "jinja",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/johnmai-dev/Jinja",
-      "state" : {
-        "revision" : "bb238dd96fbe4c18014f3107c00edd6edb15428e",
-        "version" : "1.2.4"
-      }
-    },
-    {
-      "identity" : "mlx-swift",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ml-explore/mlx-swift.git",
-      "state" : {
-        "revision" : "96c0f69cf15f38abd6248bb71fca908171dab1d8",
-        "version" : "0.25.6"
-      }
-    },
-    {
-      "identity" : "mlx-swift-examples",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ml-explore/mlx-swift-examples.git",
-      "state" : {
-        "revision" : "dddb0b3871390dd9dea8e7ff2c347cf7e74cec9d",
-        "version" : "2.25.7"
-      }
-    },
-    {
-      "identity" : "swift-argument-parser",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-argument-parser.git",
-      "state" : {
-        "revision" : "0fbc8848e389af3bb55c182bc19ca9d5dc2f255b",
-        "version" : "1.4.0"
+        "revision" : "06c0e8b9d38e535307776405e1ed13c326f8878c",
+        "version" : "5.39.0"
       }
     },
     {
@@ -76,7 +40,7 @@
     {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-collections.git",
+      "location" : "https://github.com/apple/swift-collections",
       "state" : {
         "revision" : "8c0c0a8b49e080e54e5e328cc552821ff07cd341",
         "version" : "1.2.1"
@@ -137,15 +101,6 @@
       }
     },
     {
-      "identity" : "swift-numerics",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-numerics",
-      "state" : {
-        "revision" : "bbadd4b853a33fd78c4ae977d17bb2af15eb3f2a",
-        "version" : "1.1.0"
-      }
-    },
-    {
       "identity" : "swift-perception",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-perception",
@@ -159,8 +114,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-sharing",
       "state" : {
-        "revision" : "aaf605733bd93126d1a3658b4021146d95c94cb6",
-        "version" : "2.7.3"
+        "revision" : "3bfc408cc2d0bee2287c174da6b1c76768377818",
+        "version" : "2.7.4"
       }
     },
     {
@@ -170,15 +125,6 @@
       "state" : {
         "revision" : "f99ae8aa18f0cf0d53481901f88a0991dc3bd4a2",
         "version" : "601.0.1"
-      }
-    },
-    {
-      "identity" : "swift-transformers",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/huggingface/swift-transformers",
-      "state" : {
-        "revision" : "ed54f3c9589d6cdc6fc2bb810e4809b0735fee01",
-        "version" : "0.1.23"
       }
     },
     {

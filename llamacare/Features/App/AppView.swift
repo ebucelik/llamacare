@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import RevenueCatUI
 
 @ViewAction(for: AppCore.self)
 struct AppView: View {
@@ -17,13 +18,11 @@ struct AppView: View {
     @Dependency(\.appStyle) var appStyle
     @Environment(\.openURL) var openURL
 
-    @AppStorage("isEntitled")
-    private var isEntitled: Bool = false
-
     @AppStorage("messageSentCounter")
     private var messageSentCounter: Int = 0
 
-    private var showRevenueCatUI = false
+    @State
+    var showRevenueCatUI = false
 
     var body: some View {
         NavigationStack {
@@ -46,6 +45,9 @@ struct AppView: View {
                     }
                 }
             }
+            .onAppear {
+                send(.onAppear)
+            }
             .toolbar {
                 ToolbarItem(placement: .title) {
                     HStack {
@@ -56,7 +58,7 @@ struct AppView: View {
 
                 ToolbarItem {
                     Button {
-                        print("open revenue cat")
+                        showRevenueCatUI.toggle()
                     } label: {
                         Text("PRO")
                             .fontWeight(.bold)
@@ -88,12 +90,14 @@ struct AppView: View {
                         }
 
                         Button {
-                            if isEntitled || messageSentCounter < 4 {
+                            if store.isEntitled || messageSentCounter < 4 {
                                 send(.sendMessage)
 
-                                if !isEntitled {
+                                if !store.isEntitled {
                                     messageSentCounter += 1
                                 }
+                            } else {
+                                showRevenueCatUI.toggle()
                             }
                         } label: {
                             Image(systemName: "arrowshape.up.circle.fill")
@@ -101,7 +105,7 @@ struct AppView: View {
                                 .renderingMode(.template)
                                 .frame(width: 30, height: 30)
                                 .padding(8)
-                                .foregroundStyle(store.message.isEmpty ? appStyle.color(.disabled) : appStyle.color(.secondary))
+                                .foregroundStyle(store.message.isEmpty ? appStyle.color(.disabled) : appStyle.color(.surfaceInverse))
                         }
                         .disabled(store.message.isEmpty)
                     }
@@ -154,6 +158,22 @@ struct AppView: View {
                 }
                 .padding(.horizontal, 16)
                 .presentationDetents([.medium])
+            }
+            .sheet(isPresented: $showRevenueCatUI) {
+                PaywallView(displayCloseButton: true)
+                    .onPurchaseCompleted { customerInfo in
+                        print(customerInfo)
+
+                        send(.setIsEntitled(true))
+                    }
+                    .onRestoreCompleted { customerInfo in
+                        print(customerInfo)
+
+                        send(.setIsEntitled(true))
+                    }
+                    .onPurchaseCancelled {
+                        send(.setIsEntitled(false))
+                    }
             }
         }
     }

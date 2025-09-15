@@ -46,13 +46,15 @@ struct ChatView: View {
 
                         VStack {
                             Text(message.content)
+                                .padding(1)
                         }
                         .padding(16)
                         .glassEffect(
                             message.role == "user"
                                 ? .clear
                                 : .regular
-                                    .tint(appStyle.color(.primary).opacity(0.2))
+                                    .tint(appStyle.color(.primary).opacity(0.2)),
+                            in: .rect(cornerRadius: 12)
                         )
 
                         if message.role == "assistant" {

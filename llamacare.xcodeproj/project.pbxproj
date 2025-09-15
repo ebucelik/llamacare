@@ -7,19 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		719F6F972E6F752500053A0F /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6F962E6F752500053A0F /* MLX */; };
-		719F6F992E6F752500053A0F /* MLXFFT in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6F982E6F752500053A0F /* MLXFFT */; };
-		719F6F9B2E6F752500053A0F /* MLXFast in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6F9A2E6F752500053A0F /* MLXFast */; };
-		719F6F9D2E6F752500053A0F /* MLXLinalg in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6F9C2E6F752500053A0F /* MLXLinalg */; };
-		719F6F9F2E6F752500053A0F /* MLXNN in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6F9E2E6F752500053A0F /* MLXNN */; };
-		719F6FA22E6F767400053A0F /* MLXLLM in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6FA12E6F767400053A0F /* MLXLLM */; };
-		719F6FA42E6F767400053A0F /* MLXLMCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 719F6FA32E6F767400053A0F /* MLXLMCommon */; };
+		719450C72E78854E00B1DBF2 /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 719450C62E78854E00B1DBF2 /* RevenueCat */; };
+		719450C92E78854E00B1DBF2 /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 719450C82E78854E00B1DBF2 /* RevenueCatUI */; };
+		719450CC2E78856700B1DBF2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 719450CB2E78856700B1DBF2 /* StoreKit.framework */; };
 		71BB4C682E7155F300DC5284 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 71BB4C672E7155F300DC5284 /* ComposableArchitecture */; };
 		71BB4D4A2E71919D00DC5284 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71BB4D492E71919D00DC5284 /* Launch Screen.storyboard */; };
 		71BB4D4D2E7195C900DC5284 /* SwiftHelper in Frameworks */ = {isa = PBXBuildFile; productRef = 71BB4D4C2E7195C900DC5284 /* SwiftHelper */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		719450CB2E78856700B1DBF2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		71BB4D492E71919D00DC5284 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		71ECE2822E6F5EB800F310A3 /* llamacare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = llamacare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -37,26 +34,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				719F6FA22E6F767400053A0F /* MLXLLM in Frameworks */,
-				719F6F9B2E6F752500053A0F /* MLXFast in Frameworks */,
-				719F6F9D2E6F752500053A0F /* MLXLinalg in Frameworks */,
-				719F6F972E6F752500053A0F /* MLX in Frameworks */,
+				719450C72E78854E00B1DBF2 /* RevenueCat in Frameworks */,
+				719450CC2E78856700B1DBF2 /* StoreKit.framework in Frameworks */,
+				719450C92E78854E00B1DBF2 /* RevenueCatUI in Frameworks */,
 				71BB4D4D2E7195C900DC5284 /* SwiftHelper in Frameworks */,
-				719F6F9F2E6F752500053A0F /* MLXNN in Frameworks */,
-				719F6F992E6F752500053A0F /* MLXFFT in Frameworks */,
 				71BB4C682E7155F300DC5284 /* ComposableArchitecture in Frameworks */,
-				719F6FA42E6F767400053A0F /* MLXLMCommon in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		719450CA2E78856700B1DBF2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				719450CB2E78856700B1DBF2 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		71ECE2792E6F5EB800F310A3 = {
 			isa = PBXGroup;
 			children = (
 				71BB4D492E71919D00DC5284 /* Launch Screen.storyboard */,
 				71ECE2842E6F5EB800F310A3 /* llamacare */,
+				719450CA2E78856700B1DBF2 /* Frameworks */,
 				71ECE2832E6F5EB800F310A3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -89,15 +91,10 @@
 			);
 			name = llamacare;
 			packageProductDependencies = (
-				719F6F962E6F752500053A0F /* MLX */,
-				719F6F982E6F752500053A0F /* MLXFFT */,
-				719F6F9A2E6F752500053A0F /* MLXFast */,
-				719F6F9C2E6F752500053A0F /* MLXLinalg */,
-				719F6F9E2E6F752500053A0F /* MLXNN */,
-				719F6FA12E6F767400053A0F /* MLXLLM */,
-				719F6FA32E6F767400053A0F /* MLXLMCommon */,
 				71BB4C672E7155F300DC5284 /* ComposableArchitecture */,
 				71BB4D4C2E7195C900DC5284 /* SwiftHelper */,
+				719450C62E78854E00B1DBF2 /* RevenueCat */,
+				719450C82E78854E00B1DBF2 /* RevenueCatUI */,
 			);
 			productName = llamacare;
 			productReference = 71ECE2822E6F5EB800F310A3 /* llamacare.app */;
@@ -128,10 +125,9 @@
 			mainGroup = 71ECE2792E6F5EB800F310A3;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */,
-				719F6FA02E6F767400053A0F /* XCRemoteSwiftPackageReference "mlx-swift-examples" */,
 				71BB4C662E7155F300DC5284 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				71BB4D4B2E7195C900DC5284 /* XCRemoteSwiftPackageReference "SwiftHelper" */,
+				719450C52E78854E00B1DBF2 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 71ECE2832E6F5EB800F310A3 /* Products */;
@@ -384,20 +380,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
+		719450C52E78854E00B1DBF2 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ml-explore/mlx-swift.git";
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.25.6;
-			};
-		};
-		719F6FA02E6F767400053A0F /* XCRemoteSwiftPackageReference "mlx-swift-examples" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ml-explore/mlx-swift-examples.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.25.7;
+				minimumVersion = 5.39.0;
 			};
 		};
 		71BB4C662E7155F300DC5284 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
@@ -419,40 +407,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		719F6F962E6F752500053A0F /* MLX */ = {
+		719450C62E78854E00B1DBF2 /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLX;
+			package = 719450C52E78854E00B1DBF2 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
 		};
-		719F6F982E6F752500053A0F /* MLXFFT */ = {
+		719450C82E78854E00B1DBF2 /* RevenueCatUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLXFFT;
-		};
-		719F6F9A2E6F752500053A0F /* MLXFast */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLXFast;
-		};
-		719F6F9C2E6F752500053A0F /* MLXLinalg */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLXLinalg;
-		};
-		719F6F9E2E6F752500053A0F /* MLXNN */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 719F6F952E6F752500053A0F /* XCRemoteSwiftPackageReference "mlx-swift" */;
-			productName = MLXNN;
-		};
-		719F6FA12E6F767400053A0F /* MLXLLM */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 719F6FA02E6F767400053A0F /* XCRemoteSwiftPackageReference "mlx-swift-examples" */;
-			productName = MLXLLM;
-		};
-		719F6FA32E6F767400053A0F /* MLXLMCommon */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 719F6FA02E6F767400053A0F /* XCRemoteSwiftPackageReference "mlx-swift-examples" */;
-			productName = MLXLMCommon;
+			package = 719450C52E78854E00B1DBF2 /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
 		};
 		71BB4C672E7155F300DC5284 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
