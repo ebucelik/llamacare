@@ -15,6 +15,7 @@ struct AppView: View {
     var store: StoreOf<AppCore>
 
     @Dependency(\.appStyle) var appStyle
+    @Environment(\.openURL) var openURL
 
     var body: some View {
         NavigationStack {
@@ -33,7 +34,6 @@ struct AppView: View {
                     InfoView()
                 }
             }
-            .padding(.horizontal, 16)
             .toolbar {
                 ToolbarItem(placement: .title) {
                     HStack {
@@ -53,7 +53,7 @@ struct AppView: View {
 
                 ToolbarItem {
                     Button {
-                        print("present info")
+                        send(.infoTapped)
                     } label: {
                         Image(systemName: "info.circle")
                             .renderingMode(.template)
@@ -89,6 +89,49 @@ struct AppView: View {
             }
             .tint(appStyle.color(.secondary))
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $store.showInfo) {
+                VStack(spacing: 16) {
+                    Text("Info")
+                        .font(appStyle.font(.title2(.bold)))
+                        .padding(.top, 16)
+
+                    Spacer()
+
+                    Button {
+                        openURL(URL(string: "https://nextgen-apps.com/en/llamacare-terms-of-use.html")!, prefersInApp: true)
+                    } label: {
+                        HStack {
+                            Text("Terms of Use (EULA)")
+                                .font(appStyle.font(.body(.bold)))
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .renderingMode(.template)
+                        }
+                        .frame(height: 50)
+                    }
+                    .buttonStyle(.glass)
+
+                    Button {
+                        openURL(URL(string: "https://nextgen-apps.com/en/llamacare-privacy-policy.html")!, prefersInApp: true)
+                    } label: {
+                        HStack {
+                            Text("Privacy Policy")
+                                .font(appStyle.font(.body(.bold)))
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .renderingMode(.template)
+                        }
+                        .frame(height: 50)
+                    }
+                    .buttonStyle(.glass)
+                }
+                .padding(.horizontal, 16)
+                .presentationDetents([.medium])
+            }
         }
     }
 }

@@ -14,15 +14,19 @@ struct AppCore {
     struct State: Equatable {
         var chatState = ChatCore.State()
         var message: String = ""
+
+        var showInfo = false
     }
 
     enum Action: ViewAction, BindableAction {
         enum ViewAction {
             case sendMessage
+            case infoTapped
         }
 
         enum AsyncAction {
             case resetMessage
+            case showInfoView
         }
 
         case view(ViewAction)
@@ -52,12 +56,20 @@ struct AppCore {
                             .send(.async(.resetMessage))
                         ]
                     )
+
+                case .infoTapped:
+                    return .send(.async(.showInfoView))
                 }
 
             case let .async(action):
                 switch action {
                 case .resetMessage:
                     state.message = ""
+
+                    return .none
+
+                case .showInfoView:
+                    state.showInfo = true
 
                     return .none
                 }
