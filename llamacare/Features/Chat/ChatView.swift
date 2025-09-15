@@ -115,27 +115,6 @@ struct ChatView: View {
         ZStack {
             if store.isOpenRouterResponseLoading {
                 Circle()
-                    .fill(appStyle.color(.primary))
-                    .frame(width: 100, height: 100)
-                    .scaleEffect(firstCircleAnimationAmount)
-                    .animation(
-                        .easeInOut(duration: 1)
-                            .repeatForever(autoreverses: true),
-                        value: firstCircleAnimationAmount
-                    )
-
-                Circle()
-                    .fill(appStyle.color(.primary).opacity(0.8))
-                    .frame(width: 120, height: 120)
-                    .scaleEffect(secondCircleAnimationAmount)
-                    .animation(
-                        .easeInOut(duration: 1)
-                            .repeatForever(autoreverses: true),
-                        value: secondCircleAnimationAmount
-                    )
-
-                Circle()
-                    .fill(appStyle.color(.primary).opacity(0.6))
                     .frame(width: 140, height: 140)
                     .scaleEffect(thirdCircleAnimationAmount)
                     .animation(
@@ -143,6 +122,7 @@ struct ChatView: View {
                             .repeatForever(autoreverses: true),
                         value: thirdCircleAnimationAmount
                     )
+                    .glassEffect(.regular.tint(appStyle.color(.primary).opacity(0.3)), in: Circle())
                     .onAppear {
                         firstCircleAnimationAmount = 0.9
                         secondCircleAnimationAmount = 0.8
@@ -153,18 +133,38 @@ struct ChatView: View {
                         secondCircleAnimationAmount = 1.0
                         thirdCircleAnimationAmount = 1.0
                     }
-            } else {
-                Circle()
-                    .fill(appStyle.color(.primary))
-                    .frame(width: 100, height: 100)
 
                 Circle()
-                    .fill(appStyle.color(.primary).opacity(0.8))
+                    .frame(width: 120, height: 120)
+                    .scaleEffect(secondCircleAnimationAmount)
+                    .animation(
+                        .easeInOut(duration: 1)
+                            .repeatForever(autoreverses: true),
+                        value: secondCircleAnimationAmount
+                    )
+                    .glassEffect(.regular.tint(appStyle.color(.primary).opacity(0.6)), in: Circle())
+
+                Circle()
+                    .frame(width: 100, height: 100)
+                    .scaleEffect(firstCircleAnimationAmount)
+                    .animation(
+                        .easeInOut(duration: 1)
+                            .repeatForever(autoreverses: true),
+                        value: firstCircleAnimationAmount
+                    )
+                    .glassEffect(.regular.tint(appStyle.color(.primary).opacity(0.8)), in: Circle())
+            } else {
+                Circle()
+                    .glassEffect(.regular.tint(appStyle.color(.primary).opacity(0.3)), in: Circle())
+                    .frame(width: 140, height: 140)
+
+                Circle()
+                    .glassEffect(.regular.tint(appStyle.color(.primary).opacity(0.6)), in: Circle())
                     .frame(width: 120, height: 120)
 
                 Circle()
-                    .fill(appStyle.color(.primary).opacity(0.6))
-                    .frame(width: 140, height: 140)
+                    .glassEffect(.regular.tint(appStyle.color(.primary).opacity(0.8)), in: Circle())
+                    .frame(width: 100, height: 100)
             }
         }
     }

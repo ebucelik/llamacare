@@ -17,10 +17,18 @@ struct AppView: View {
     @Dependency(\.appStyle) var appStyle
     @Environment(\.openURL) var openURL
 
+    @AppStorage("isEntitled")
+    private var isEntitled: Bool = false
+
+    @AppStorage("messageSentCounter")
+    private var messageSentCounter: Int = 0
+
+    private var showRevenueCatUI = false
+
     var body: some View {
         NavigationStack {
-            TabView {
-                Tab("Chat", systemImage: "paperplane.fill") {
+            TabView(selection: $store.tabSelection) {
+                Tab("Chat", systemImage: "paperplane.fill", value: 0) {
                     withDependencies {
                         $0.appStyle = appStyle
                     } operation: {
@@ -30,8 +38,12 @@ struct AppView: View {
                     }
                 }
 
-                Tab("Settings", systemImage: "gear") {
-                    InfoView()
+                Tab("Settings", systemImage: "gear", value: 1) {
+                    withDependencies {
+                        $0.appStyle = appStyle
+                    } operation: {
+                        SettingsView()
+                    }
                 }
             }
             .toolbar {
@@ -57,48 +69,57 @@ struct AppView: View {
                     } label: {
                         Image(systemName: "info.circle")
                             .renderingMode(.template)
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(appStyle.color(.surfaceInverse))
                     }
                 }
             }
             .tabBarMinimizeBehavior(.onScrollDown)
             .tabViewBottomAccessory {
-                HStack {
-                    withDependencies {
-                        $0.appStyle = appStyle
-                    } operation: {
-                        SharedTextField(
-                            text: $store.message,
-                            prompt: Text("Write a message..."),
-                            maxCharacterCount: 200
-                        )
-                    }
+                if store.tabSelection == 0 {
+                    HStack {
+                        withDependencies {
+                            $0.appStyle = appStyle
+                        } operation: {
+                            SharedTextField(
+                                text: $store.message,
+                                prompt: Text("Write a message..."),
+                                maxCharacterCount: 200
+                            )
+                        }
 
-                    Button {
-                        send(.sendMessage)
-                    } label: {
-                        Image(systemName: "arrowshape.up.circle.fill")
-                            .resizable()
-                            .renderingMode(.template)
-                            .frame(width: 30, height: 30)
-                            .padding(8)
-                            .foregroundStyle(store.message.isEmpty ? appStyle.color(.disabled) : appStyle.color(.secondary))
+                        Button {
+                            if isEntitled || messageSentCounter < 4 {
+                                send(.sendMessage)
+
+                                if !isEntitled {
+                                    messageSentCounter += 1
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "arrowshape.up.circle.fill")
+                                .resizable()
+                                .renderingMode(.template)
+                                .frame(width: 30, height: 30)
+                                .padding(8)
+                                .foregroundStyle(store.message.isEmpty ? appStyle.color(.disabled) : appStyle.color(.secondary))
+                        }
+                        .disabled(store.message.isEmpty)
                     }
-                    .disabled(store.message.isEmpty)
+                } else {
+                    EmptyView()
                 }
             }
             .tint(appStyle.color(.secondary))
             .navigationBarTitleDisplayMode(.inline)
+            .onOpenURL(prefersInApp: true)
             .sheet(isPresented: $store.showInfo) {
                 VStack(spacing: 16) {
                     Text("Info")
                         .font(appStyle.font(.title2(.bold)))
-                        .padding(.top, 16)
-
-                    Spacer()
+                        .padding(.vertical, 16)
 
                     Button {
-                        openURL(URL(string: "https://nextgen-apps.com/en/llamacare-terms-of-use.html")!, prefersInApp: true)
+                        openURL(URL(string: "https://nextgen-apps.com/en/llamacare-terms-of-use.html")!)
                     } label: {
                         HStack {
                             Text("Terms of Use (EULA)")
@@ -128,6 +149,8 @@ struct AppView: View {
                         .frame(height: 50)
                     }
                     .buttonStyle(.glass)
+
+                    Spacer()
                 }
                 .padding(.horizontal, 16)
                 .presentationDetents([.medium])

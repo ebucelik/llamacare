@@ -13,6 +13,7 @@ public enum AppColor {
     case primary
     case secondary
     case surface
+    case surfaceInverse
     case disabled
     case clear
 }
@@ -43,6 +44,8 @@ public class AppStyle: AppStyleProtocol {
             return Color("AppSecondary")
         case .surface:
             return Color("Surface")
+        case .surfaceInverse:
+            return Color("SurfaceInverse")
         case .disabled:
             return Color("Disabled")
         case .clear:

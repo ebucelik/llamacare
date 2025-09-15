@@ -10,6 +10,8 @@ import SwiftUI
 
 @main
 struct llamacareApp: App {
+    @AppStorage("appearance") private var selectedAppearance: Appearance = .system
+    
     var body: some Scene {
         WindowGroup {
             withDependencies {
@@ -24,6 +26,7 @@ struct llamacareApp: App {
                         }
                     )
                 )
+                .preferredColorScheme(selectedAppearance.getColorScheme())
             }
         }
     }

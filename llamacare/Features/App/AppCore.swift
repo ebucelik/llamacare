@@ -16,6 +16,8 @@ struct AppCore {
         var message: String = ""
 
         var showInfo = false
+
+        var tabSelection = 0
     }
 
     enum Action: ViewAction, BindableAction {
