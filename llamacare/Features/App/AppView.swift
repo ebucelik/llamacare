@@ -18,16 +18,13 @@ struct AppView: View {
     @Dependency(\.appStyle) var appStyle
     @Environment(\.openURL) var openURL
 
-    @AppStorage("messageSentCounter")
-    private var messageSentCounter: Int = 0
-
     @State
     var showRevenueCatUI = false
 
     var body: some View {
         NavigationStack {
-            TabView(selection: $store.tabSelection) {
-                Tab("Chat", systemImage: "paperplane.fill", value: 0) {
+            TabView {
+                Tab("Chat", systemImage: "paperplane.fill") {
                     withDependencies {
                         $0.appStyle = appStyle
                     } operation: {
@@ -37,16 +34,13 @@ struct AppView: View {
                     }
                 }
 
-                Tab("Settings", systemImage: "gear", value: 1) {
+                Tab("Settings", systemImage: "gear") {
                     withDependencies {
                         $0.appStyle = appStyle
                     } operation: {
                         SettingsView()
                     }
                 }
-            }
-            .onAppear {
-                send(.onAppear)
             }
             .toolbar {
                 ToolbarItem(placement: .title) {
@@ -75,44 +69,23 @@ struct AppView: View {
                     }
                 }
             }
-            .tabBarMinimizeBehavior(.onScrollDown)
-            .tabViewBottomAccessory {
-                if store.tabSelection == 0 {
-                    HStack {
-                        withDependencies {
-                            $0.appStyle = appStyle
-                        } operation: {
-                            SharedTextField(
-                                text: $store.message,
-                                prompt: Text("Write a message..."),
-                                maxCharacterCount: 200
-                            )
-                        }
+            .sheet(isPresented: $showRevenueCatUI) {
+                PaywallView(displayCloseButton: true)
+                    .onPurchaseCompleted { customerInfo in
+                        print(customerInfo)
 
-                        Button {
-                            if store.isEntitled || messageSentCounter < 4 {
-                                send(.sendMessage)
-
-                                if !store.isEntitled {
-                                    messageSentCounter += 1
-                                }
-                            } else {
-                                showRevenueCatUI.toggle()
-                            }
-                        } label: {
-                            Image(systemName: "arrowshape.up.circle.fill")
-                                .resizable()
-                                .renderingMode(.template)
-                                .frame(width: 30, height: 30)
-                                .padding(8)
-                                .foregroundStyle(store.message.isEmpty ? appStyle.color(.disabled) : appStyle.color(.surfaceInverse))
-                        }
-                        .disabled(store.message.isEmpty)
+                        send(.setIsEntitled(true))
                     }
-                } else {
-                    EmptyView()
-                }
+                    .onRestoreCompleted { customerInfo in
+                        print(customerInfo)
+
+                        send(.setIsEntitled(true))
+                    }
+                    .onPurchaseCancelled {
+                        send(.setIsEntitled(false))
+                    }
             }
+            .tabBarMinimizeBehavior(.onScrollDown)
             .tint(appStyle.color(.secondary))
             .navigationBarTitleDisplayMode(.inline)
             .onOpenURL(prefersInApp: true)
@@ -158,22 +131,6 @@ struct AppView: View {
                 }
                 .padding(.horizontal, 16)
                 .presentationDetents([.medium])
-            }
-            .sheet(isPresented: $showRevenueCatUI) {
-                PaywallView(displayCloseButton: true)
-                    .onPurchaseCompleted { customerInfo in
-                        print(customerInfo)
-
-                        send(.setIsEntitled(true))
-                    }
-                    .onRestoreCompleted { customerInfo in
-                        print(customerInfo)
-
-                        send(.setIsEntitled(true))
-                    }
-                    .onPurchaseCancelled {
-                        send(.setIsEntitled(false))
-                    }
             }
         }
     }

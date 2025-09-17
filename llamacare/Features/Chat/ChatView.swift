@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import RevenueCatUI
 
 @ViewAction(for: ChatCore.self)
 struct ChatView: View {
@@ -25,61 +26,110 @@ struct ChatView: View {
     @State
     var thirdCircleAnimationAmount = 1.0
 
+    @AppStorage("messageSentCounter")
+    private var messageSentCounter: Int = 0
+
+    @State
+    var showRevenueCatUI = false
+
     var body: some View {
         VStack {
             circleView()
 
-            List(store.messages, id: \.self) { message in
-                VStack {
-                    Text(message.role == "user" ? "You" : "LlamaCare")
-                        .font(appStyle.font(.caption(.bold)))
-                        .frame(
-                            maxWidth: .infinity,
-                            alignment: message.role == "user"
-                                ? .trailing : .leading
-                        )
+            ScrollViewReader { scrollViewProxy in
+                List(store.messages, id: \.self) { message in
+                    VStack {
+                        Text(message.role == "user" ? "You" : "LlamaCare")
+                            .font(appStyle.font(.caption(.bold)))
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: message.role == "user"
+                                    ? .trailing : .leading
+                            )
 
-                    HStack {
-                        if message.role == "user" {
-                            Spacer()
+                        HStack {
+                            if message.role == "user" {
+                                Spacer()
+                            }
+
+                            VStack {
+                                Text(message.content)
+                                    .padding(1)
+                            }
+                            .padding(16)
+                            .glassEffect(
+                                message.role == "user"
+                                    ? .clear
+                                    : .regular
+                                        .tint(appStyle.color(.primary).opacity(0.2)),
+                                in: .rect(cornerRadius: 12)
+                            )
+
+                            if message.role == "assistant" {
+                                Spacer()
+                            }
                         }
-
-                        VStack {
-                            Text(message.content)
-                                .padding(1)
-                        }
-                        .padding(16)
-                        .glassEffect(
-                            message.role == "user"
-                                ? .clear
-                                : .regular
-                                    .tint(appStyle.color(.primary).opacity(0.2)),
-                            in: .rect(cornerRadius: 12)
-                        )
-
-                        if message.role == "assistant" {
-                            Spacer()
+                    }
+                    .id(message)
+                    .ignoresSafeArea()
+                    .listRowInsets(EdgeInsets())
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
+                    .contentShape(Rectangle())
+                    .padding(.top, 8)
+                    .onChange(of: store.messages) { _, _ in
+                        withAnimation {
+                            scrollViewProxy.scrollTo(store.messages.last, anchor: .bottom)
                         }
                     }
                 }
-                .ignoresSafeArea()
-                .listRowInsets(EdgeInsets())
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
-                .contentShape(Rectangle())
-                .padding(.top, 8)
+                .listStyle(.plain)
+                .scrollIndicators(.hidden)
+                .scrollContentBackground(.hidden)
+                .padding(.horizontal, 16)
+                .ignoresSafeArea(edges: .bottom)
             }
-            .listStyle(.plain)
-            .scrollIndicators(.hidden)
-            .scrollContentBackground(.hidden)
-            .padding(.horizontal, 16)
 
             Spacer()
+
+            HStack {
+                withDependencies {
+                    $0.appStyle = appStyle
+                } operation: {
+                    SharedTextField(
+                        text: $store.message,
+                        prompt: Text("Write a message..."),
+                        maxCharacterCount: 200
+                    )
+                }
+
+                Button {
+                    if store.isEntitled || messageSentCounter < 4 {
+                        send(.sendMessage)
+
+                        if !store.isEntitled {
+                            messageSentCounter += 1
+                        }
+                    } else {
+                        showRevenueCatUI.toggle()
+                    }
+                } label: {
+                    Image(systemName: "arrowshape.up.circle.fill")
+                        .resizable()
+                        .renderingMode(.template)
+                        .frame(width: 30, height: 30)
+                        .padding(8)
+                        .foregroundStyle(store.message.isEmpty ? appStyle.color(.disabled) : appStyle.color(.surfaceInverse))
+                }
+                .disabled(store.message.isEmpty)
+            }
+            .glassEffect()
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16)
         }
         .onAppear {
             send(.onAppear)
         }
-        .ignoresSafeArea(edges: .bottom)
         .background(
             ZStack {
                 Color.gray
@@ -94,12 +144,22 @@ struct ChatView: View {
                 GeometryReader { proxy in
                     let size = proxy.size
 
-                    Circle()
-                        .fill(appStyle.color(.primary))
-                        .padding(50)
-                        .blur(radius: 180)
-                        .glassEffect(in: Circle())
-                        .offset(x: -size.width / 1.8, y: -size.height / 5)
+                    ZStack {
+                        Circle()
+                            .fill(appStyle.color(.primary))
+                            .padding(50)
+                            .blur(radius: 180)
+                            .glassEffect(in: Circle())
+
+                        Image("LlamaCareShape")
+                            .resizable()
+                            .scaledToFit()
+                            .padding(100)
+                            .rotationEffect(.degrees(45))
+                            .offset(x: 50)
+                            .opacity(0.1)
+                    }
+                    .offset(x: -size.width / 1.8, y: -size.height / 5)
 
                     Circle()
                         .fill(appStyle.color(.secondary))
@@ -110,6 +170,22 @@ struct ChatView: View {
                 }
             }
         )
+        .sheet(isPresented: $showRevenueCatUI) {
+            PaywallView(displayCloseButton: true)
+                .onPurchaseCompleted { customerInfo in
+                    print(customerInfo)
+
+                    send(.setIsEntitled(true))
+                }
+                .onRestoreCompleted { customerInfo in
+                    print(customerInfo)
+
+                    send(.setIsEntitled(true))
+                }
+                .onPurchaseCancelled {
+                    send(.setIsEntitled(false))
+                }
+        }
     }
 
     @ViewBuilder

@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftHelper
+import RevenueCat
 
 @Reducer
 struct ChatCore {
@@ -20,6 +21,8 @@ struct ChatCore {
 
         var messages: [OpenRouterMessage.Message] = []
 
+        var message: String = ""
+
         var isOpenRouterResponseLoading: Bool {
             if case .loading = openRouterResponse {
                 return true
@@ -27,25 +30,26 @@ struct ChatCore {
 
             return false
         }
+
+        var isEntitled = false
     }
 
     enum Action: ViewAction, BindableAction {
         enum ViewAction {
             case onAppear
+            case setIsEntitled(Bool)
+            case sendMessage
         }
 
         enum AsyncAction {
             case sendMessageRequest(String)
             case setOpenRouterResponse(Loadable<OpenRouterResponse>)
-        }
-
-        enum DelegateAction {
-            case sendMessage(String)
+            case setIsEntitled(Bool)
+            case resetMessage
         }
 
         case view(ViewAction)
         case async(AsyncAction)
-        case delegate(DelegateAction)
         case binding(BindingAction<State>)
     }
 
@@ -59,9 +63,38 @@ struct ChatCore {
             case let .view(action):
                 switch action {
                 case .onAppear:
-                    guard let message = state.initialMessage else { return .none }
+                    var effects: [Effect<Action>] = [
+                        .run { send in
+                            let customerInfo = try await Purchases.shared.customerInfo()
 
-                    return .send(.async(.sendMessageRequest(message)))
+                            if customerInfo.entitlements.all["pro"]?.isActive == true {
+                                await send(.async(.setIsEntitled(true)))
+                            }
+                        } catch: { error, send in
+                            print(error.localizedDescription)
+
+                            await send(.async(.setIsEntitled(false)))
+                        }
+                    ]
+
+                    guard let message = state.initialMessage else { return .concatenate(effects) }
+
+                    effects.append(.send(.async(.sendMessageRequest(message))))
+
+                    return .concatenate(effects)
+
+                case let .setIsEntitled(isEntitled):
+                    return .send(.async(.setIsEntitled(isEntitled)))
+
+                case .sendMessage:
+                    guard !state.message.isEmpty else { return .none }
+
+                    return .concatenate(
+                        [
+                            .send(.async(.sendMessageRequest(state.message))),
+                            .send(.async(.resetMessage))
+                        ]
+                    )
                 }
 
             case let .async(action):
@@ -107,13 +140,16 @@ struct ChatCore {
                     }
 
                     return .none
-                }
 
+                case let .setIsEntitled(isEntitled):
+                    state.isEntitled = isEntitled
 
-            case let .delegate(action):
-                switch action {
-                case let .sendMessage(message):
-                    return .send(.async(.sendMessageRequest(message)))
+                    return .none
+
+                case .resetMessage:
+                    state.message = ""
+
+                    return .none
                 }
 
             case .binding:
