@@ -21,6 +21,12 @@ struct AppView: View {
     @State
     var showRevenueCatUI = false
 
+    @AppStorage("isOnboardingShown")
+    var isOnboardingShown: Bool = false
+
+    @State
+    var showOnboarding = false
+
     var body: some View {
         NavigationStack {
             TabView {
@@ -67,6 +73,22 @@ struct AppView: View {
                             .renderingMode(.template)
                             .foregroundStyle(appStyle.color(.surfaceInverse))
                     }
+                }
+            }
+            .onAppear {
+                if !isOnboardingShown {
+                    showOnboarding = true
+                    isOnboardingShown = true
+                }
+            }
+            .sheet(isPresented: $showOnboarding) {
+                withDependencies {
+                    $0.appStyle = appStyle
+                } operation: {
+                    OnboardingView()
+                        .onDisappear {
+                            showRevenueCatUI = true
+                        }
                 }
             }
             .sheet(isPresented: $showRevenueCatUI) {
